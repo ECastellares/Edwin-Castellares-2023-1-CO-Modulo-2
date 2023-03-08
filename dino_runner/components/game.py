@@ -32,6 +32,9 @@ class Game:
         pygame.display.quit()
         pygame.quit()
 
+        if not self.running:
+            self.show_menu()
+
     def run(self):
         # Game loop: events - update - draw
         self.obstacle_manager.reset_obstacles()
@@ -42,7 +45,8 @@ class Game:
             self.events()
             self.update()
             self.draw()
-        pygame.quit()
+        self.death_count += 1 
+        self.show_menu()
 
     def events(self):
         for event in pygame.event.get():
@@ -86,6 +90,8 @@ class Game:
             self.menu.draw(self.screen)
 
         self.screen.blit(ICON, (half_screen_width - 50, half_screen_height - 140))
+
+        self.menu.draw(self.screen, score=self.score)
 
         self.menu.update(self)
 
